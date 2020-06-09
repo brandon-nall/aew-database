@@ -1,6 +1,7 @@
 import React from 'react';
 import Axios from 'axios';
 import EditWrestler from './EditWrestler';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
 const WrestlerView = ({
   auth,
@@ -20,8 +21,35 @@ const WrestlerView = ({
     (match) => match.date >= '2020-00-00' && match.date < '2021-00-00'
   );
 
+  const previousWrestler = wrestlers[wrestlers.indexOf(wrestlerView) - 1];
+  const nextWrestler = wrestlers[wrestlers.indexOf(wrestlerView) + 1];
+
   return (
     <div id="wrestlerView">
+      <div className="prevnextButtons">
+        {' '}
+        {wrestlers.indexOf(wrestlerView) !== 0 && (
+          <Link
+            to={`/wrestlers/${previousWrestler.id}`}
+            onClick={(e) => {
+              setWrestlerView(previousWrestler);
+            }}
+          >
+            <button>{'<'}</button>
+          </Link>
+        )}
+        {nextWrestler && wrestlers.indexOf(wrestlerView) < wrestlers.length && (
+          <Link
+            to={`/wrestlers/${nextWrestler.id}`}
+            onClick={(e) => {
+              setWrestlerView(nextWrestler);
+            }}
+          >
+            <button>{'>'}</button>
+          </Link>
+        )}
+      </div>
+
       <img className="wrestlerImage" src={wrestlerView.image} />
       <h1>{wrestlerView.name}</h1>
       <h5>Debut: {wrestlerView.debut}</h5>

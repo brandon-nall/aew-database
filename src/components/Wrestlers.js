@@ -9,7 +9,7 @@ const Wrestlers = ({
   setWrestlerView,
   auth,
 }) => {
-  const wrestlerList = wrestlers.sort().map((wrestler, i) => {
+  const wrestlerList = wrestlers.map((wrestler, i) => {
     if (wrestler) {
       return (
         <Link

@@ -30,15 +30,13 @@ const Matches = ({ auth, matches, setMatches, wrestlers, setMatchView }) => {
     <div id="matches">
       <h1>Matches</h1>
       <h2>{matches.length}</h2>
-      <ul id="matchList">
-        <li>
-          <h5>Date</h5>
-          <h5>Event</h5>
-          <h5>Type</h5>
-          <h5>Winner</h5>
-        </li>
-        {matchList}
-      </ul>
+      <li>
+        <h5>Date</h5>
+        <h5>Event</h5>
+        <h5>Type</h5>
+        <h5>Winner</h5>
+      </li>
+      <ul id="matchList">{matchList}</ul>
       {auth && (
         <AddMatch
           matches={matches}

@@ -56,6 +56,11 @@ const App = () => {
   const [matchView, setMatchView] = useState({});
   const [factionView, setFactionView] = useState({});
 
+  const [sortedMatches, setSortedMatches] = useState([]);
+  useEffect(() => {
+    setSortedMatches(matches.sort((a, b) => (a.date > b.date ? 1 : -1)));
+  }, [matches]);
+
   return (
     <div className="App">
       <Router>
@@ -95,7 +100,11 @@ const App = () => {
           <div id="viewDiv">
             <Switch>
               <Route exact path="/">
-                <Home matches={matches} />
+                <Home
+                  matches={matches}
+                  wrestlers={wrestlers}
+                  setWrestlerView={setWrestlerView}
+                />
               </Route>
               <Route exact path={`/wrestlers/${wrestlerView.id}`}>
                 <WrestlerView
@@ -114,6 +123,7 @@ const App = () => {
                   setWrestlers={setWrestlers}
                   wrestlerView={wrestlerView}
                   setWrestlerView={setWrestlerView}
+                  matches={matches}
                 />
               </Route>
               <Route exact path={`/matches/${matchView.id}`}>
@@ -125,6 +135,7 @@ const App = () => {
                   wrestlers={wrestlers}
                   setMatches={setMatches}
                   setWrestlerView={setWrestlerView}
+                  sortedMatches={sortedMatches}
                 />
               </Route>
               <Route exact path="/matches">
@@ -147,6 +158,7 @@ const App = () => {
               </Route>
             </Switch>
           </div>
+          <div id="footer"></div>
         </div>
       </Router>
     </div>
