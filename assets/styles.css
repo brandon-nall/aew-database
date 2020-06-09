@@ -1,965 +1,192 @@
 body {
-  font-family: verdana;
-  margin: 0;
-  background-image: url('./background.png');
-  background-size: 100vh auto;
+  background-image: url('https://www.denofgeek.com/wp-content/uploads/2020/05/aew_double_or_nothing_2020_primary.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
   background-attachment: fixed;
+  background-position-x: center;
 }
 
-main {
-  display: flex;
+ul {
+  margin: 16px;
+  padding: 4px;
 }
 
-main > * {
-  flex: 1;
-  margin: 1rem;
-}
-
-.userListImage {
-  width: 50px;
-  height: 50px;
-  border: 1px solid grey;
-  border-radius: 50%;
-}
-
-#chatHeader {
-  display: flex;
-  align-items: center;
-}
-
-.userChatLink {
-  margin: 0 8px;
-}
-
-.xButton {
-  color: white;
-  width: 24px;
-  background-color: rgb(194, 194, 194);
-  border-radius: 50%;
-  padding: 0px 6px;
-  margin-right: 16px;
-}
-
-.chat-history {
-  max-height: 50vh;
-  overflow-y: scroll;
-  margin: 16px 0;
-  border: 1px solid grey;
-  padding: 8px;
-  border-radius: 5px;
-  background-color: rgb(249, 249, 249);
+li {
+  list-style-type: none;
 }
 
 nav {
   display: flex;
-  justify-content: space-around;
-  border-bottom: 2px solid white;
-  background-color: rgb(38, 41, 38);
+  justify-content: space-between;
   align-items: center;
+  padding: 16px 20%;
 }
 
-#nav {
+nav a {
+  text-decoration: none;
+  color: white;
+}
+nav a:hover {
+  text-decoration: none;
+  color: red;
+}
+
+#navDiv {
+  background-color: black;
   position: fixed;
-  width: 100%;
   top: 0;
-  left: 0;
-  font-family: 'Alef';
-  z-index: 2;
-}
-
-#view {
-  margin-top: 75px;
-  font-family: 'Alef';
-  display: flex;
-  justify-content: center;
-}
-
-.hr {
-  margin-top: 0px;
-  padding: 0px;
   width: 100%;
-}
-.navbar {
-  padding: 0;
-  padding: 8px;
-  width: 100%;
-}
-
-a {
-  color: initial;
-  outline: none;
-}
-
-a:active {
-  color: rgb(38, 41, 38);
-}
-
-.checkbox {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: start;
-}
-
-.link {
-  margin: 0;
-}
-
-button:focus {
-  outline: none;
-}
-
-button,
-.button {
-  color: rgb(0, 200, 0);
-  border: none;
-  height: 2rem;
-  font-size: 1.5rem;
-  background-color: rgb(38, 41, 38);
-  padding: 0 16px;
-  border-radius: 15px;
-  outline: none;
-  user-select: none;
-}
-
-.userFriendsListItem {
-  display: flex;
-  flex-direction: column;
-  padding: 16px;
-}
-
-.searchButton {
-  border-radius: 15px;
-}
-
-h2 {
-  text-transform: uppercase;
-}
-
-li {
-  display: flex;
-  align-items: center;
-}
-
-.vl {
-  border-left: 1px solid rgb(140, 140, 140);
-  height: 30px;
-}
-
-h1 {
-  padding: 1rem;
-
-  text-align: center;
 }
 
 #navLogo {
-  width: 24px;
+  height: 50px;
+  width: auto;
 }
 
-#changeButton {
-  margin-bottom: 16px;
+#viewDiv {
+  background-color: rgba(255, 255, 255, 0.749);
+  margin: 100px 10% 32px 10%;
+  padding: 32px;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
-#loginLogo {
-  width: 150px;
-  height: 150px;
+#home {
+  overflow-y: scroll;
 }
 
-#loginButton {
-  border-radius: 15px;
+#matchList {
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  height: 55vh;
+  border: 1px solid grey;
+}
+.matchListItem {
+  margin: 4px;
+  padding: 8px;
+  border: 1px solid grey;
+}
+
+.matchListItem:hover {
+  background-color: white;
+  transform: scaleY(1.1);
+  border: none;
+}
+
+#matchList a {
+  text-decoration: none;
+  color: black;
+}
+#matchList a:hover {
+  text-decoration: none;
+  color: red;
+}
+#matchList li {
+  display: flex;
+  flex-direction: row;
+}
+#matchList li * {
+  flex: 1;
+  text-align: left;
+}
+
+.matchListItem li {
+  display: flex;
+  flex-direction: row;
+}
+.matchListItem * {
+  flex: 1;
+  text-align: left;
+}
+
+#participantsList {
+  display: flex;
+}
+
+#participantsList a {
+  text-decoration: none;
+  color: black;
+}
+#participantsList a:hover {
+  text-decoration: none;
+  color: red;
+}
+.participantsListItem {
   margin: 8px;
-}
-#dropdownDiv {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  height: fit-content;
-}
-
-#dropdownDiv input {
-  height: 1em;
   padding: 16px;
-}
-
-label h6 {
-  text-align: start;
-}
-
-#loginPage {
-  text-align: center;
-  margin: 32px;
+  border: 1px solid grey;
   display: flex;
   flex-direction: column;
-  align-items: center;
 }
 
-#guestRestricted {
-  margin: 32px 32px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: rgba(239, 239, 239, 0.715);
-  text-align: center;
-  border: 1px solid grey;
-  border-radius: 15px;
-  padding: 16px 16px 32px 16px;
-}
-
-#loginForm {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: rgba(239, 239, 239, 0.715);
-  border: 1px solid grey;
-  border-radius: 15px;
-  padding: 16px;
-  margin: 16px;
-}
-
-#chatPage {
-  text-align: center;
-  background-color: rgba(239, 239, 239, 0.715);
-  border: 1px solid grey;
-  border-radius: 15px;
-  padding: 16px;
-  margin-top: 32px;
-  overflow: scroll;
-}
-
-#advSearchHeader {
-  border-radius: 15px 15px 0 0;
-  padding: 0;
-}
-
-#advSearchNumBoxes {
+#wrestlerList {
   display: flex;
   flex-wrap: wrap;
-}
-
-#advSearchCard {
-  border-radius: 15px;
+  overflow-y: scroll;
+  height: 55vh;
   border: 1px solid grey;
-  overflow: hidden;
-  width: inherit;
-  margin: 4px;
 }
 
-#userFriendsPage {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: rgba(239, 239, 239, 0.715);
-  border: 1px solid grey;
-  border-radius: 15px;
-  padding: 16px;
-  margin: 16px;
-  text-align: center;
-}
-
-#userGamesPage {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: rgba(239, 239, 239, 0.715);
-  border: 1px solid grey;
-  border-radius: 15px;
-  padding: 16px;
-  margin: 16px;
-  text-align: center;
-}
-
-#locationButton {
-  margin: 16px;
-}
-
-#location {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-#searchGames {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-#resultsHeader {
-  text-align: center;
-}
-
-#createUserButton {
-  margin: 16px;
-}
-
-.findPlayersPage {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: 0;
-  width: 100%;
-  text-align: center;
-}
-
-#findPlayersForm {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-
-  background-color: rgba(239, 239, 239, 0.715);
-  margin: 32px 32px 16px 32px;
-  padding: 16px;
-  border: 1px solid grey;
-  border-radius: 15px;
-}
-
-#searchGames {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-#searchGamesForm {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  margin: 0;
-  background-color: rgba(239, 239, 239, 0.715);
-  padding: 16px;
-  border: 1px solid grey;
-  border-radius: 15px;
-}
-
-p {
-  margin: 0;
-}
-
-input[type='text'],
-input[type='postal'] {
-  border-radius: 15px;
-  border: 1px solid grey;
-  margin: 4px;
-  padding-left: 16px;
-}
-
-#imageToUpload {
-  border-radius: 15px;
-  border: 1px solid grey;
-  background-color: white;
-}
-
-input[type='password'] {
-  border-radius: 15px;
-  border: 1px solid grey;
-  margin: 4px;
-  padding-left: 16px;
-}
-
-#logButton {
-  border-radius: 15px;
-  border: 1px solid rgba(255, 255, 255, 0.482);
-}
-
-#logButton h6 {
-  margin: 0;
-
-  font-size: 12px;
-}
-
-#uploadedFile {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 16px;
-}
-
-button > h5 {
-  font-weight: 700;
-  margin: 0;
-}
-
-button:active {
-  background-color: rgb(0, 200, 0);
-  color: white;
-  user-select: none;
-}
-
-#small-check {
-  margin-bottom: 16px;
-}
-
-#bioInput {
-  position: relative;
+.wrestlerThumbnail {
   height: 100px;
-  border-radius: 15px;
-  padding: 8px 16px;
-  margin: 16px;
-  border: 1px solid grey;
-  resize: none;
-  width: 100%;
-}
-
-#submitImageButton {
-  font-weight: 700;
-
-  color: rgb(0, 200, 0);
-  font-size: 20px;
-  border: none;
-  border-radius: 15px;
-  width: fit-content;
-  align-self: center;
-  padding: 0 16px;
-
-  background-color: rgb(38, 41, 38);
-}
-
-ul {
-  padding: 0;
-}
-
-h3 {
-  font-weight: 700;
-}
-
-h5 {
-  margin: 0;
-}
-
-h6 {
-  margin: 0;
-}
-
-select {
-  width: 100%;
-  border-radius: 15px;
-  background-color: white;
-  text-overflow: ellipsis;
-  border: 1px solid grey;
-  outline: 0px;
-  padding: 1px 0px 1px 16px;
-}
-
-option {
-  text-overflow: ellipsis;
-}
-
-.select {
-  margin: 8px;
-}
-
-.dot-red {
-  height: 10px;
-  width: 10px;
-  background-color: red;
-  border-radius: 50%;
-  display: inline-block;
-}
-
-.dot-green {
-  height: 10px;
-  width: 10px;
-  background-color: green;
-  border-radius: 50%;
-  display: inline-block;
-}
-
-#aboutPage {
-  margin: 32px 32px 32px 32px;
-  text-align: center;
-  background-color: rgba(239, 239, 239, 0.715);
-  padding: 16px 16px 32px 16px;
-  border: 1px solid grey;
-  border-radius: 15px;
-}
-
-#userProfile {
-  margin: 32px 32px;
-  text-align: center;
-  background-color: rgba(239, 239, 239, 0.715);
-  padding: 16px;
-  border: 1px solid grey;
-  border-radius: 15px;
-}
-
-#playersList {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  margin: 0px 32px 16px 32px;
-  background-color: rgba(239, 239, 239, 0.715);
-  border: 1px solid grey;
-  border-radius: 15px;
-}
-
-#gamesPage {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  margin: 32px 32px 16px 32px;
-}
-
-#gamesList {
-  padding: 16px;
-  background-color: rgba(239, 239, 239, 0.715);
-  border: 1px solid grey;
-  border-radius: 15px;
-  margin: 8px 0 16px 0;
-  max-height: 85vh;
-  overflow: scroll;
-}
-
-#imageUploadForm {
-  display: flex;
-  flex-direction: column;
-  align-content: center;
-  width: 100%;
-  text-align: center;
-}
-
-.gamesListItem {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 16px;
-}
-.gamesListItem hr {
-  margin: 16px 0;
-}
-
-.gamesListItem a {
-  margin: 0;
-}
-
-.gameListItemImage {
-  width: 50vw;
-  margin: 8px;
-  border: 1px solid grey;
-}
-
-.favoritebutton {
-  margin: 16px;
-}
-
-.gameInfo {
-  text-align: left;
-  width: 75%;
-}
-
-.gameBio {
-  margin: 16px;
-  text-align: start;
-}
-
-.userProfile {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-
-.userProfileImage {
-  border: 1px solid grey;
-  height: 150px;
-  width: 150px;
-  border-radius: 50%;
-}
-
-#userSettingsPage {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 32px 32px;
-  padding: 16px 16px 32px 16px;
-  background-color: rgba(239, 239, 239, 0.715);
-  border: 1px solid grey;
-  border-radius: 15px;
-}
-
-#changePasswordForm {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 0;
-}
-
-#createUserForm {
-  margin: 32px 32px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  background-color: rgba(239, 239, 239, 0.715);
-  border: 1px solid grey;
-  border-radius: 15px;
-  padding: 16px 16px 32px 16px;
-}
-
-.addFriendButton {
-  margin-bottom: 16px;
-}
-
-#createUserForm > h5 {
-  margin: 16px 0;
-}
-
-.mb-4,
-.my-4 {
-  margin-bottom: 0 !important;
-}
-
-#updateBio {
-  margin: 0 32px 4px 32px;
-  width: 100%;
-  border-radius: 15px;
-  border: 1px solid grey;
-  padding: 8px 16px;
-}
-
-#updateLoc {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 0 32px 16px 32px;
-  width: 100%;
-  padding: 8px 16px;
-}
-
-#advGameType {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-input[type='checkbox'] {
-  margin: 8px;
-}
-
-.checkBoxes {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-#img {
   width: 100px;
-  border-radius: 15px;
-  border: none;
+  object-fit: cover;
+  object-position: 50% 0;
 }
 
-#imageUpload {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.wrestlerImage {
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
 }
 
-#gamePage {
-  text-align: center;
-  margin: 32px 32px;
-
-  margin: 32px 32px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: rgba(239, 239, 239, 0.715);
-  text-align: center;
-  border: 1px solid grey;
-  border-radius: 15px;
-  padding: 32px;
-}
-.gameImage {
-  width: 200px;
-  border: 1px solid grey;
-}
-
-.navbar-expand-lg {
-  justify-content: space-between;
-}
-
-.userResults {
-  display: flex;
-  justify-content: space-between;
+.wrestlerListItem {
+  margin: 8px;
   padding: 16px;
-  background-color: rgba(239, 239, 239, 0.715);
   border: 1px solid grey;
-  border-radius: 15px;
-  margin: 16px 16px 16px 16px;
-  max-height: 85vh;
-  width: 90%;
-}
-
-.fa {
-  font-size: 25px;
-}
-.checked {
-  color: orange;
-}
-
-.fileUpload {
   display: flex;
   flex-direction: column;
-  align-items: center;
-}
-/**************  POKEBALL LOADING STYLING  *************/
-.contain-poke {
-  height: 100vh;
-  width: 100vw;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.pokeball {
-  height: 250px;
-  width: 250px;
-  border: 13px solid #383b4f;
-  border-radius: 50%;
-  background-image: linear-gradient(#f51939 125px, white 125px);
-  position: relative;
-  animation: load 1.5s infinite;
-}
-@keyframes load {
-  50% {
-    transform: scale(0.7);
-  }
-}
-.pokeball:before {
-  position: absolute;
-  content: '';
-  height: 20px;
-  width: 225px;
-  background-color: #383b4f;
-  top: 112px;
-}
-.pokeball:after {
-  position: absolute;
-  content: '';
-  height: 90px;
-  width: 90px;
-  background-image: radial-gradient(
-    #ffffff 0px,
-    #ffffff 10px,
-    #383b4f 10px,
-    #383b4f 15px,
-    #ffffff 15px,
-    #ffffff 32px,
-    #383b4f 32px
-  );
-  border-radius: 50%;
-  top: 70px;
-  left: 70px;
-}
-/* .nav-icon:hover {
-  animation: grow 1s;
-}
-@keyframes grow {
-  50% {
-    transform: scale(1.5);
-  }
-} */
-.nav-icon {
-  transition: all 0.5s ease-in-out;
-}
-.nav-icon:hover {
-  transform: scale(1.5);
-}
-.each-icon {
-  margin: 10px;
-  margin-top: 0px;
-  margin-bottom: 7px;
+  flex: 1;
 }
 
-.icon-container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-.icon-container-dashboard {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-.each-icon-dashboard {
-  margin: 5px;
-}
-/**************  GPS LOADING STYLING  *************/
-#small-check {
-  height: 20px;
-  width: 20px;
-}
-.lds-facebook {
-  display: inline-block;
-  position: relative;
-  width: 80px;
-  height: 80px;
-}
-.lds-facebook div {
-  display: inline-block;
-  position: absolute;
-  left: 8px;
-  width: 16px;
-  background: #fff;
-  animation: lds-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
-}
-.lds-facebook div:nth-child(1) {
-  left: 8px;
-  animation-delay: -0.24s;
-}
-.lds-facebook div:nth-child(2) {
-  left: 32px;
-  animation-delay: -0.12s;
-}
-.lds-facebook div:nth-child(3) {
-  left: 56px;
-  animation-delay: 0;
-}
-@keyframes lds-facebook {
-  0% {
-    top: 8px;
-    height: 64px;
-  }
-  50%,
-  100% {
-    top: 24px;
-    height: 32px;
-  }
-}
-#zip {
-  display: flex;
-  flex-direction: column;
-  margin: 8px 8px;
-  align-items: center;
-  text-align: center;
-  font-style: italic;
+#wrestlerView {
+  overflow-y: scroll;
 }
 
-.createUserToastSuccess {
-  display: flex;
-  background-color: 00c802;
-  padding: 5px;
-  border-radius: 15px;
-  font-weight: bold;
-  margin: 5px;
+#wrestlerList a {
+  text-decoration: none;
+  color: black;
 }
-.createUserToastFailure {
-  display: flex;
-  background-color: red;
-  padding: 5px;
-  border-radius: 15px;
-  font-weight: bold;
-  margin: 5px;
-}
-.passFail {
+#wrestlerList a:hover {
+  text-decoration: none;
   color: red;
-  font-weight: bold;
-}
-.passSuccess {
-  color: green;
-  font-weight: bold;
 }
 
-.custom-file-label {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  padding-right: 80px;
+#addWrestlerDiv {
+  border: 1px solid grey;
+  padding: 16px;
+}
 
-@media only screen and (min-width: 450px) {
-  #findPlayersForm {
-    width: 75%;
-  }
+#addWrestlerForm {
+  display: flex;
+  flex-direction: column;
+}
 
-  #gamesList {
-    display: flex;
-    flex-direction: row;
-    width: 75%;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-  .gamesListItem {
-    width: 20%;
-    margin: 16px;
-    justify-content: flex-end;
-  }
-  .gameListItemImage {
-    width: 100%;
-    height: auto;
-  }
-  #playersList {
-    display: flex;
-    flex-direction: row;
-    width: 75%;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-  .userresults {
-    width: 30%;
-    margin: 16px;
-    justify-content: space-between;
-  }
+#addMatchDiv {
+  border: 1px solid grey;
+  padding: 16px;
+}
 
-  select {
-    width: 50%;
-  }
+#addMatchForm {
+  display: flex;
+  flex-direction: column;
+}
 
-  #updateBio {
-    width: 50%;
-  }
-
-  #bioInput {
-    width: 50%;
-  }
-
-  #userSettingsPage {
-    width: 75%;
-  }
-
-  #guestRestricted {
-    width: 75%;
-  }
-
-  #aboutPage {
-    width: 75%;
-  }
-
-  #chatPage {
-    width: 75%;
-  }
-
-  #searchGamesForm {
-    width: 75%;
-  }
-
-  #dropdownDiv {
-    width: 50%;
-  }
-
-  #createUserPage {
-    width: 75%;
-  }
-
-  #loginPage {
-    width: 50%;
-  }
-  #loginForm {
-    width: 100%;
-  }
-
-  input {
-    width: 50%;
-  }
-
-  input[type='checkbox'] {
-    margin-right: 8px;
-    width: fit-content;
-  }
-
-  #loginLogo {
-    width: 300px;
-    height: 300px;
-  }
+.beltImg {
+  height: 100px;
+  width: auto;
 }

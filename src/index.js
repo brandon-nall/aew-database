@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import ReactDOM from "react-dom";
-import App from "./App";
+import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
 
-const root = document.querySelector("#root");
+const root = document.querySelector('#root');
 ReactDOM.render(<App />, root);

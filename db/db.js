@@ -4,138 +4,21 @@ const client = require('./client');
 const faker = require('faker');
 const axios = require('axios');
 require('dotenv').config();
-const {
-  authenticate,
-  compare,
-  findUserFromToken,
-  hash,
-  markOnline,
-} = require('./auth');
-const models = ({
-  users,
-  games,
-  gameTypes,
-  favoriteGames,
-  friendships,
-  hardcodedGames,
-} = require('./models'));
-const {
-  getAllGames,
-  createChat,
-  updateChat,
-  getChat,
-  getChats,
-  getUsers,
-  getUser,
-  createMessage,
-  getMessage,
-  putMessage,
-} = require('./userMethods');
+
+const models = ({ wrestlers, matches } = require('./models'));
 
 const client_id = process.env.CLIENT_ID;
-
-const allDataFromAPI = axios
-  .get(`https://www.boardgameatlas.com/api/search?client_id=${client_id}`)
-  .then((response) => {
-    return response.data.games;
-  })
-  .catch((error) => {
-    if (error.response) {
-      console.log('error.response.data: ', error.response.data);
-      console.log('error.response.status: ', error.response.status);
-      console.log('error.response.headers: ', error.response.headers);
-    } else if (error.request) {
-      console.log('error.request: ', error.request);
-    } else {
-      console.log('Error', error.message);
-    }
-    console.log('error.config: ', error.config);
-  });
-
-const ipsum =
-  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam malesuada, lacus at blandit rutrum, enim sapien pulvinar quam, vel euismod neque lectus eu ante. Ut vel congue justo, eget pharetra orci. Proin sagittis tortor elementum nunc tristique mattis.';
 
 const sync = async () => {
   if (process.env.NODE_ENV == 'production') {
     //**********************************  PRODUCTION ******************************* */
     console.log('environment is: ', process.env.NODE_ENV);
     const SQL = `    CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-  CREATE TABLE IF NOT EXISTS users (
+  CREATE TABLE IF NOT EXISTS wrestlers (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    username VARCHAR(100) NOT NULL UNIQUE,
-    firstname VARCHAR(100) NOT NULL,
-    lastname VARCHAR(100) NOT NULL,
-    password VARCHAR(100) NOT NULL,
-    role VARCHAR(20) DEFAULT 'player',
-    email VARCHAR(100) NOT NULL UNIQUE,
-    "isBlocked" BOOLEAN DEFAULT false,
-    "isOnline" BOOLEAN DEFAULT false,
-    CHECK (char_length(username) > 0),
-    photo VARCHAR,
-    bio VARCHAR(300),
-    latitude VARCHAR,
-    longitude VARCHAR,
-    "gameTypes" TEXT [],
-    date_created TIMESTAMP default CURRENT_TIMESTAMP,
-    avatar VARCHAR
-  );
-  CREATE TABLE IF NOT EXISTS game_type (
-    id SERIAL PRIMARY KEY,
-    gametype VARCHAR
-  );
-  CREATE TABLE IF NOT EXISTS game (
-    id VARCHAR PRIMARY KEY UNIQUE,
-    name VARCHAR,
-    "gameTypeID" INT,
-    description VARCHAR,
-    image_url VARCHAR,
-    min_players INT,
-    max_players INT,
-    url VARCHAR,
-    primary_publisher VARCHAR,
-    min_age INT,
-    year_published INT,
-    min_playtime INT,
-    max_playtime INT,
-    average_user_rating DECIMAL
-  );
-  CREATE TABLE IF NOT EXISTS favoritegames (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    "userId" UUID REFERENCES users(id),
-    "gameId" VARCHAR REFERENCES game(id),
-    UNIQUE ("userId", "gameId")
-  );
-  CREATE TABLE IF NOT EXISTS friendships (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    "userId" UUID REFERENCES users(id),
-    "friendId" UUID REFERENCES users(id),
-    "sendStatus" VARCHAR NOT NULL,
-    UNIQUE ("userId", "friendId")
-  );
-  CREATE TABLE IF NOT EXISTS user_group (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    "userId" UUID REFERENCES users(id) NOT NULL,
-    "gameTypeID" INT REFERENCES game_type(id) NOT NULL
-  );
-  CREATE TABLE IF NOT EXISTS chat (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    creator_id UUID REFERENCES users(id) NOT NULL,
-    creator_username VARCHAR(100) REFERENCES users(username) NOT NULL,
-    user_id UUID REFERENCES users(id) NOT NULL,
-    user_username VARCHAR(100) REFERENCES users(id) NOT NULL,
-    date_create TIMESTAMP default CURRENT_TIMESTAMP,
-    render_creator_messages BOOLEAN DEFAULT true,
-    render_user_messages BOOLEAN DEFAULT true,
-    date_updated TIMESTAMP default CURRENT_TIMESTAMP
+    name VARCHAR
   );
 
-  CREATE TABLE IF NOT EXISTS message (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    chat_id UUID REFERENCES chat(id) NOT NULL,
-    sender_id UUID REFERENCES users(id) NOT NULL,
-    message VARCHAR,
-    date_updated TIMESTAMP default CURRENT_TIMESTAMP
-  );
   `;
     await client.query(SQL);
   } else {
@@ -143,176 +26,46 @@ const sync = async () => {
     console.log('environment is: development');
     const SQL = `    CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
-    DROP TABLE IF EXISTS message;
-    DROP TABLE IF EXISTS chat;
-    DROP TABLE IF EXISTS favoritegames;
-    DROP TABLE IF EXISTS friendships;
-    DROP TABLE IF EXISTS user_game;
-    DROP TABLE IF EXISTS user_group;
-    DROP TABLE IF EXISTS game;
-    DROP TABLE IF EXISTS game_type;
-    DROP TABLE IF EXISTS users;
 
-  CREATE TABLE IF NOT EXISTS users (
+
+
+  DROP TABLE IF EXISTS wrestlers;
+  DROP TABLE IF EXISTS matches;
+  DROP TABLE IF EXISTS factions;
+  CREATE TABLE IF NOT EXISTS wrestlers (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    username VARCHAR(100) NOT NULL UNIQUE,
-    firstname VARCHAR(100) NOT NULL,
-    lastname VARCHAR(100) NOT NULL,
-    password VARCHAR(100) NOT NULL,
-    role VARCHAR(20) DEFAULT 'player',
-    email VARCHAR(100) NOT NULL UNIQUE,
-    "isBlocked" BOOLEAN DEFAULT false,
-    "isOnline" BOOLEAN DEFAULT false,
-    CHECK (char_length(username) > 0),
-    photo VARCHAR,
-    bio VARCHAR(300),
-    latitude VARCHAR,
-    longitude VARCHAR,
-    "gameTypes" TEXT [],
-    date_created TIMESTAMP default CURRENT_TIMESTAMP,
-    avatar VARCHAR
-  );
-  CREATE TABLE IF NOT EXISTS game_type (
-    id SERIAL PRIMARY KEY,
-    gametype VARCHAR
-  );
-  CREATE TABLE IF NOT EXISTS game (
-    id VARCHAR PRIMARY KEY UNIQUE,
     name VARCHAR,
-    "gameTypeID" INT,
-    description VARCHAR,
-    image_url VARCHAR,
-    min_players INT,
-    max_players INT,
-    url VARCHAR,
-    primary_publisher VARCHAR,
-    min_age INT,
-    year_published INT,
-    min_playtime INT,
-    max_playtime INT,
-    average_user_rating DECIMAL
+    debut VARCHAR,
+    image VARCHAR
   );
-  CREATE TABLE IF NOT EXISTS favoritegames (
+  CREATE TABLE IF NOT EXISTS matches (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  date VARCHAR,
+  event VARCHAR,
+  type VARCHAR,
+  championship VARCHAR,
+  winner VARCHAR,
+  participants TEXT[]
+  );
+  CREATE TABLE IF NOT EXISTS factions (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    "userId" UUID REFERENCES users(id),
-    "gameId" VARCHAR REFERENCES game(id),
-    UNIQUE ("userId", "gameId")
+    name VARCHAR,
+    members text[]
   );
-  CREATE TABLE IF NOT EXISTS friendships (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    "userId" UUID REFERENCES users(id),
-    "friendId" UUID REFERENCES users(id),
-    "sendStatus" VARCHAR NOT NULL,
-    UNIQUE ("userId", "friendId")
-  );
-  CREATE TABLE IF NOT EXISTS user_group (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    "userId" UUID REFERENCES users(id) NOT NULL,
-    "gameTypeID" INT REFERENCES game_type(id) NOT NULL
-  );
-  CREATE TABLE IF NOT EXISTS chat (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    creator_id UUID REFERENCES users(id) NOT NULL,
-    creator_username VARCHAR(100) REFERENCES users(username) NOT NULL,
-    user_id UUID REFERENCES users(id) NOT NULL,
-    user_username VARCHAR(100) REFERENCES users(username) NOT NULL,
-    date_create TIMESTAMP default CURRENT_TIMESTAMP,
-    render_creator_messages BOOLEAN DEFAULT true,
-    render_user_messages BOOLEAN DEFAULT true,
-    date_updated TIMESTAMP default CURRENT_TIMESTAMP
-  );
-  CREATE TABLE IF NOT EXISTS message (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    chat_id UUID REFERENCES chat(id) NOT NULL,
-    sender_id UUID REFERENCES users(id) NOT NULL,
-    message VARCHAR,
-    date_updated TIMESTAMP default CURRENT_TIMESTAMP
-  );
+
+  INSERT INTO wrestlers (name, debut, image) VALUES ('MJF', '2019-05-02', 'https://www.wrestling-world.com/imgs/4038/maxwell-jacob-friedman-on-his-quick-victory.jpg'), ('Cody', '2019-05-02', 'https://i0.wp.com/thefanboyseo.com/wp-content/uploads/2019/03/IMG_20190322_110808.jpg'), ('Dustin Rhodes', '2019-05-02', 'https://img.bleacherreport.net/img/images/photos/003/828/914/f555ab7ddfbabe9c0d62ad4339c8dcf5_crop_north.jpg?1568863651&w=630&h=420'), ('Chris Jericho', '2019-05-02', 'https://www.ewrestlingnews.com/wp-content/uploads/2020/02/Chris-Jericho-4.jpg'), ('Kenny Omega', '2019-05-02', 'https://miro.medium.com/max/2600/1*doaM-B5h4HFMeMHaRTEfdQ.jpeg'), ('Adam Page', '2019-05-02', 'https://images.daznservices.com/di/library/sporting_news/dd/16/adam-page-wrestling-ring-of-honor-ftr-051117_1cst2s7mxxqsv1b3o1xtsu0z0c.jpg'), ('Riho', '2019-05-02', 'https://i.pinimg.com/originals/44/0c/8d/440c8d8b736dea726b118c89e0b06bf8.jpg'), ('Nyla Rose', '2019-05-02', 'https://bloximages.newyork1.vip.townnews.com/ucanews.live/content/tncms/assets/v3/editorial/c/0a/c0a87c90-5c14-11ea-8efd-6f50a8e22c8b/5e5c4651e1a79.image.jpg'), ('Hikaru Shida', '2019-05-02', 'https://pbs.twimg.com/media/D7ldHSOUwAAu0Er.jpg'), ('Dr. Britt Baker D.M.D', '2019-05-02', 'https://vignette.wikia.nocookie.net/prowrestling/images/0/06/Britt_Baker_-_1578803.jpg/revision/latest/top-crop/width/360/height/450?cb=20191019180109'), ('Pentagon Jr', '2019-05-02', 'https://cdn.vox-cdn.com/thumbor/7y73Ik7jmIUGZN7gBW2wQKIflHA=/0x57:1000x724/1310x873/cdn.vox-cdn.com/uploads/chorus_image/image/65169514/tumblr_pwwyprU2Ng1tyujquo1_1280.0.0.jpg'), ('Rey Fenix', '2019-05-02', 'https://vignette.wikia.nocookie.net/impact/images/6/68/Fenix.jpg'), ('Awesome Kong', '2019-05-02', 'https://lastwordonprowrestling.com/wp-content/uploads/sites/15/2019/02/Awesome-Kong-e1549674383190.png'), ('Allie', '2019-05-02', 'https://66.media.tumblr.com/b79a864829c78df25cf2113a28609216/tumblr_pzfr7aysZQ1rmv1vdo2_500.png'), ('Leva Bates', '2019-06-29', 'https://i1.wp.com/prowrestlingpost.com/wp-content/uploads/2019/09/AEW-Leva-Bates-0.jpg'), ('Christopher Daniels', '2019-05-02', 'https://static.wixstatic.com/media/94b54e_5252053872db431d920f2a5df1e6a488~mv2_d_5568_3712_s_4_2.jpg/v1/fill/w_1000,h_667,al_c,q_90,usm_0.66_1.00_0.01/94b54e_5252053872db431d920f2a5df1e6a488~mv2_d_5568_3712_s_4_2.jpg'), ('Cima', '2019-05-02','https://pbs.twimg.com/media/EFflWuUWoAMquud.jpg'), ('Kip Sabian', '2019-05-02', 'https://cdn1.sixthman.net/sixthman/images/artists/5124.jpg'), ('Sammy Guevara', '2019-05-02', 'https://creator-images.podchaser.com/429a8bddc1a31881cf75611e3dbaec7a.jpeg'), ('Shawn Spears', '2019-05-02', 'https://static3.cbrimages.com/wordpress/wp-content/uploads/2020/05/Shawn-Spears.jpg'), ('Joey Janela', '2019-05-02', 'https://pbs.twimg.com/profile_images/1248885938467586048/v3PYfDrl_400x400.jpg'), ('Billy Gunn', '2019-05-02', 'https://www.wrestlezone.com/assets/uploads/2019/11/11-20-19_INDIANAPOLIS__2019-11-20-20-27-16__photo-by-Lee-South-e1574995323323.jpg'), ('Luchasaurus', '2019-05-02', 'https://statics.sportskeeda.com/editor/2019/10/457e2-15714470982174-500.jpg'),  ('Jungle Boy', '2019-05-02', 'https://popculthq.com/wp-content/uploads/2020/01/Jungle-Boy.jpg'), ('Orange Cassidy', '2019-05-02', 'https://static3.cbrimages.com/wordpress/wp-content/uploads/2020/05/Orange-Cassidy-Facebook-Image.jpg'), ('Jimmy Havoc', '2019-05-02', 'https://static.tvtropes.org/pmwiki/pub/images/wrestling_jimmy_havoc.jpg'), ('Darby Allin', '2019-06-29', 'https://vignette.wikia.nocookie.net/retconwrestling/images/2/29/DAllin.jpg'), ('Michael Nakazawa', '2019-06-29', 'https://cdn.gouki.com/dtbimages/01580199-15e2-4594-b578-2df5869763cb.png'), ('Jon Moxley', '2019-06-29', 'https://411mania.com/wp-content/uploads/2020/03/AEW-Dynamite-Jon-Moxley-645x370.jpg'), ('Yuka Sakazaki', '2019-06-29', 'https://411mania.com/wp-content/uploads/2020/02/Yuka-Sakazaki-AEW.jpg'), ('Lance Archer', '2020-04-01', 'https://s3.superluchas.com/2020/03/Lance-Archer-od.jpg'), ('Santana', '2020-03-09', 'https://vignette.wikia.nocookie.net/prowrestling/images/4/45/Draz_LAX.jpg'), ('Ortiz', '2020-03-09', 'https://vignette.wikia.nocookie.net/impact/images/4/41/Ortiz.jpg'), ('Frankie Kazarian', '2019-05-02', 'https://i.pinimg.com/originals/bb/d8/57/bbd857b4a8463e8c8fa93db3ec85a467.jpg'), ('Scorpio Sky', '2019-05-02', 'https://pbs.twimg.com/media/Cx6XjQpUoAA_e3Z.jpg'), ('Jake Hager', '2019-10-02', 'https://cdn.sescoops.com/wp-content/uploads/2020/05/jake-hager-696x392.jpg'), ('Nick Jackson', '2019-05-02', 'https://www.fite.tv/thumbs/s3/ims-thumbs/fighters_images/AEW/Nick_Jackson/Nick_Jackson_New.jpg'), ('Matt Jackson', '2019-05-02', 'https://www.fite.tv/thumbs/s3/ims-thumbs/fighters_images/AEW/Matt_Jackson/Matt_Jackson_New.jpg'), ('Marko Stunt', '2019-05-02', 'https://cdn1.sixthman.net/sixthman/images/artists/5106.jpg'), ('Pac', '2019-08-31', 'https://smirfittsspeech.files.wordpress.com/2019/07/img_4904.jpg') ;
+
+  INSERT INTO matches (date, type, event, championship, winner, participants) VALUES ('2019-05-02', 'Fatal Four Way', 'Double or Nothing', null, 'Dr. Britt Baker D.M.D', ARRAY['Dr. Britt Baker D.M.D', 'Nyla Rose', 'Kylie Rae', 'Awesome Kong']), ('2019-05-02', 'Singles', 'Double or Nothing', null, 'Cody', ARRAY['Cody', 'Dustin Rhodes']), ('2019-06-29', 'Singles', 'Fyter Fest', null, 'Allie', ARRAY['Allie', 'Leva Bates']), ('2019-06-29', 'Singles', 'Fyter Fest', null, 'Cima', ARRAY['Cima', 'Christopher Daniels']), ('2019-05-02', 'Singles', 'Double or Nothing', null, 'Kip Sabian', ARRAY['Kip Sabian', 'Sammy Guevara']), ('2020-02-29', 'Singles', 'Revolution', 'World Championship', 'Jon Moxley', ARRAY['Chris Jericho', 'Jon Moxley']), ('2019-06-29', 'Singles', 'Fyter Fest', null,  'Cody', ARRAY['Cody', 'Darby Allin']), ('2019-08-31', 'Singles', 'All Out', 'World Championship', 'Chris Jericho', ARRAY['Chris Jericho', 'Adam Page']), ('2019-10-02', 'Singles', 'Wednesday Night Dynamite', 'Women''s World Championship', 'Riho', ARRAY['Riho', 'Nyla Rose']), ('2020-02-12', 'Singles', 'Wednesday Night Dynamite', 'Women''s World Championship', 'Nyla Rose', ARRAY['Riho', 'Nyla Rose']), ('2020-05-23', 'Singles', 'Double or Nothing', 'Women''s World Championship', 'Hikaru Shida', ARRAY['Nyla Rose', 'Hikaru Shida']), ('2020-05-23', 'Singles', 'Double or Nothing', 'TNT Championship', 'Cody', ARRAY['Cody', 'Lance Archer']), ('2019-08-31', 'Singles', 'All Out', null, 'Pac', ARRAY['Kenny Omega', 'Pac']), ('2019-08-31', 'Singles', 'All Out', 'Women''s World Championship', 'Riho', ARRAY['Riho', 'Hikaru Shida']), ('2019-08-31', 'Singles', 'All Out', null, 'Cody', ARRAY['Cody', 'Shawn Spears']), ('2019-07-13', 'Singles', 'Fight for the Fallen', null, 'Kenny Omega', ARRAY['Kenny Omega', 'Cima']), ('2019-11-09', 'Singles', 'Full Gear', null, 'Adam Page', ARRAY['Adam Page', 'Pac']), ('2019-11-09', 'Singles', 'Full Gear', null, 'Shawn Spears', ARRAY['Shawn Spears', 'Joey Janela']), ('2019-11-09', 'Singles', 'Full Gear', 'World Championship', 'Chris Jericho', ARRAY['Chris Jericho', 'Cody']), ('2020-02-29', 'Singles', 'Revolution', null, 'Jake Hager', ARRAY['Dustin Rhodes', 'Jake Hager']), ('2020-02-29', 'Singles', 'Revolution', null, 'Darby Allin', ARRAY['Darby Allin', 'Sammy Guevara']), ('2020-02-29', 'Singles', 'Revolution', null, 'Pac', ARRAY['Orange Cassidy', 'Pac']),('2020-05-23', 'Singles', 'Double or Nothing', null, 'MJF', ARRAY['MJF', 'Jungle Boy']);
+
+  INSERT INTO factions (name, members) VALUES ('The Lucha Bros', ARRAY['Pentagon Jr', 'Rey Fenix']), ('Proud and Powerful', ARRAY['Santana', 'Ortiz']), ('SCU', ARRAY['Christopher Daniels', 'Scorpio Sky', 'Frankie Kazarian']), ('The Young Bucks', ARRAY['Matt Jackson', 'Nick Jackson']), ('The Inner Circle', ARRAY['Chris Jericho', 'Sammy Guevara', 'Jake Hager', 'Santana', 'Ortiz']), ('The Elite', ARRAY['Cody', 'Kenny Omega', 'Matt Jackson', 'Nick Jackson', 'Adam Page']), ('Jurassic Express', ARRAY['Jungle Boy', 'Luchasaurus', 'Marko Stunt']);
+
   `;
 
     await client.query(SQL);
-
-    await Promise.all(
-      Object.values(hardcodedGames).map((each) => games.create(each))
-    );
-
-    const _games = await allDataFromAPI;
-    await Promise.all(Object.values(_games).map((each) => games.create(each)));
-    const _gameTypes = [
-      { gametype: 'board' },
-      { gametype: 'card' },
-      { gametype: 'tabletop rpg' },
-    ];
-    await Promise.all(
-      Object.values(_gameTypes).map((each) => gameTypes.create(each))
-    );
-
-    const _users = {
-      admin: {
-        username: 'admin',
-        firstname: 'ad',
-        lastname: 'min',
-        password: 'admin',
-        role: 'ADMIN',
-        email: 'admin@gmail.com',
-        bio: ipsum,
-        latitude: '30.055760',
-        longitude: '-81.500880',
-        avatar: '/assets/avatar.png',
-      },
-      friend: {
-        username: 'friend',
-        firstname: 'fr',
-        lastname: 'iend',
-        password: 'friend',
-        role: 'PLAYER',
-        email: 'friend@gmail.com',
-        bio: 'friend here',
-        latitude: '30.280240',
-        longitude: '-81.724630',
-        avatar: '/assets/avatar.png',
-      },
-      buddy: {
-        username: 'buddy',
-        firstname: 'bud',
-        lastname: 'dy',
-        password: 'buddy',
-        role: 'PLAYER',
-        email: 'buddy@gmail.com',
-        bio: 'buddy here',
-        latitude: '30.303406',
-        longitude: '-81.469178',
-        avatar: '/assets/avatar.png',
-      },
-    };
-
-    await Promise.all(Object.values(_users).map((user) => users.create(user)));
-
-    const userMap = (await users.read()).reduce((acc, user) => {
-      acc[user.username] = user;
-      return acc;
-    }, {});
-
-    return {
-      users: userMap,
-    };
   }
 };
 
 module.exports = {
   sync,
   models,
-  authenticate,
-  markOnline,
-  findUserFromToken,
-  getAllGames,
-  createChat,
-  updateChat,
-  getChat,
-  getChats,
-  getUsers,
-  getUser,
-  createMessage,
-  getMessage,
-  putMessage,
 };

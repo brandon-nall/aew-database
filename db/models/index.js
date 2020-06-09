@@ -1,8 +1,5 @@
 module.exports = {
-  users: require('./users'),
-  games: require('./games'),
-  gameTypes: require('./gameTypes'),
-  favoriteGames: require('./favoriteGames'),
-  friendships: require('./friendships'),
-  hardcodedGames: require('./hardcodedGames'),
+  wrestlers: require('./wrestlers.js'),
+  matches: require('./matches.js'),
+  factions: require('./factions.js'),
 };
