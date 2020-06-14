@@ -7,7 +7,7 @@ const matches = {
   },
 
   create: async (match) => {
-    const SQL = `INSERT INTO matches (date, type, championship, participants, winner) values($1, $2, $3, $4, $5) returning *`;
+    const SQL = `INSERT INTO matches (date, type, championship, participants, winner, teams) values($1, $2, $3, $4, $5, $6) returning *`;
     return (
       await client.query(SQL, [
         match.date,
@@ -15,6 +15,7 @@ const matches = {
         match.championship,
         match.participants,
         match.winner,
+        match.teams,
       ])
     ).rows[0];
   },

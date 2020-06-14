@@ -2,7 +2,14 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import AddMatch from './AddMatch';
 
-const Matches = ({ auth, matches, setMatches, wrestlers, setMatchView }) => {
+const Matches = ({
+  auth,
+  matches,
+  setMatches,
+  wrestlers,
+  setMatchView,
+  factions,
+}) => {
   const matchList = matches
     .sort((a, b) => (a.date < b.date ? 1 : -1))
     .map((match, i) => {
@@ -42,6 +49,7 @@ const Matches = ({ auth, matches, setMatches, wrestlers, setMatchView }) => {
           matches={matches}
           setMatches={setMatches}
           wrestlers={wrestlers}
+          factions={factions}
         />
       )}
     </div>

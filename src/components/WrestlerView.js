@@ -57,6 +57,7 @@ const WrestlerView = ({
         .filter((match) => match.championship === 'World Championship')
         .sort((a, b) => (a.date < b.date ? 1 : -1))[0].winner ===
         wrestlerView.name && <h3>WORLD CHAMPION</h3>}
+
       {matches
         .filter((match) => match.championship === "Women's World Championship")
         .sort((a, b) => (a.date < b.date ? 1 : -1))[0].winner ===

@@ -104,6 +104,8 @@ const App = () => {
                   matches={matches}
                   wrestlers={wrestlers}
                   setWrestlerView={setWrestlerView}
+                  factions={factions}
+                  setFactionView={setFactionView}
                 />
               </Route>
               <Route exact path={`/wrestlers/${wrestlerView.id}`}>
@@ -145,10 +147,15 @@ const App = () => {
                   setMatches={setMatches}
                   wrestlers={wrestlers}
                   setMatchView={setMatchView}
+                  factions={factions}
                 />
               </Route>
               <Route exact path={`/factions/${factionView.id}`}>
-                <FactionView factionView={factionView} />
+                <FactionView
+                  factionView={factionView}
+                  wrestlers={wrestlers}
+                  setWrestlerView={setWrestlerView}
+                />
               </Route>
               <Route exact path="/factions">
                 <Factions factions={factions} setFactionView={setFactionView} />

@@ -1,9 +1,18 @@
+@font-face {
+  font-family: primetime;
+  src: url('./PRIMETIME-PERSONAL\ USE\ ONLY.ttf');
+}
+
 body {
   background-image: url('https://www.denofgeek.com/wp-content/uploads/2020/05/aew_double_or_nothing_2020_primary.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position-x: center;
+}
+
+h1 {
+  font-family: 'primetime';
 }
 
 ul {
@@ -78,6 +87,20 @@ nav li:hover {
   overflow-y: scroll;
 }
 
+.championship {
+  background-color: black;
+  padding-bottom: 16px;
+}
+
+.championship a {
+  text-decoration: none;
+  color: rgb(200, 174, 70);
+}
+
+.championship a:hover {
+  color: white;
+}
+
 #matchList {
   display: flex;
   flex-direction: column;
@@ -150,6 +173,12 @@ nav li:hover {
   border: 1px solid grey;
   display: flex;
   flex-direction: column;
+}
+
+.participantsListItem:hover {
+  transform: scale(1.1);
+  transition: 0.2s;
+  background-color: black;
 }
 
 #wrestlerList {
@@ -262,4 +291,24 @@ nav li:hover {
   width: 100%;
   object-fit: cover;
   object-position: 50% 50%;
+}
+
+#factionImage {
+  width: 500px;
+  height: 300px;
+  object-fit: cover;
+  object-position: 50% 0;
+}
+
+.factionThumbnail {
+  width: 200px;
+  height: 100px;
+  object-fit: cover;
+  object-position: 50% 0;
+}
+
+#factionList,
+#tagteamList {
+  display: flex;
+  flex-wrap: wrap;
 }

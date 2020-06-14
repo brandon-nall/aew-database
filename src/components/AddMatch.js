@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Axios from 'axios';
 
-const AddMatch = ({ matches, setMatches, wrestlers }) => {
+const AddMatch = ({ matches, setMatches, wrestlers, factions }) => {
   const [participants, setParticipants] = useState(2);
   const [selectedWrestlers, setSelectedWrestlers] = useState([]);
   const [newMatch, setNewMatch] = useState({});
@@ -36,6 +36,12 @@ const AddMatch = ({ matches, setMatches, wrestlers }) => {
 
   const winnerSelectorList = selectedWrestlers.map((wrestler, i) => {
     return <option key={i}>{wrestler}</option>;
+  });
+
+  const tagTeamsOptions = factions.map((faction, i) => {
+    if (faction.type === 'Tag Team') {
+      return <option key={i}>{faction.name}</option>;
+    }
   });
 
   return (
@@ -79,6 +85,12 @@ const AddMatch = ({ matches, setMatches, wrestlers }) => {
             setNewMatch({ ...newMatch, type: e.target.value });
           }}
         ></input>
+        {newMatch.type === 'Tag Team' && (
+          <div>
+            <select>{tagTeamsOptions}</select>
+            <select>{tagTeamsOptions}</select>
+          </div>
+        )}
         Participants: {participants}
         <button
           type="button"
